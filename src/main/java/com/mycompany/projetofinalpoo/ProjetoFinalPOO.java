@@ -12,9 +12,6 @@ package com.mycompany.projetofinalpoo;
 public class ProjetoFinalPOO {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        System.out.println("teste");
-        System.out.println("TRO@KO");
-        System.out.println("aa");
+        System.out.println("Teste");
     }
 }
