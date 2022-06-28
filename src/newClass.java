@@ -8,5 +8,5 @@
  * @author marci
  */
 public class newClass {
-    
+ 
 }
