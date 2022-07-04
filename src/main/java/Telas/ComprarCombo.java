@@ -7,6 +7,16 @@ package Telas;
 import com.sun.tools.javac.Main;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -23,6 +33,11 @@ public class ComprarCombo extends javax.swing.JFrame {
     public ComprarCombo() {
         initComponents();
         cardLayout = (CardLayout) (mainCard.getLayout());
+        try {
+            updateClientTable();
+        } catch (IOException ex) {
+            Logger.getLogger(ComprarCombo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -303,6 +318,11 @@ public class ComprarCombo extends javax.swing.JFrame {
                 clientFindFieldActionPerformed(evt);
             }
         });
+        clientFindField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                clientFindFieldKeyReleased(evt);
+            }
+        });
 
         Header2.setBackground(new java.awt.Color(255, 255, 255));
         Header2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -330,6 +350,11 @@ public class ComprarCombo extends javax.swing.JFrame {
 
         clientAgeSpinner.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         clientAgeSpinner.setOpaque(false);
+        clientAgeSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                clientAgeSpinnerStateChanged(evt);
+            }
+        });
 
         clientStudentBox.setBackground(new java.awt.Color(0, 0, 51));
         clientStudentBox.setForeground(new java.awt.Color(204, 204, 204));
@@ -354,33 +379,25 @@ public class ComprarCombo extends javax.swing.JFrame {
         clientTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         clientTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, "Teste", null,  new Boolean(true)}
+
             },
             new String [] {
-                "ID", "Nome", "Idade", "Estudante"
+                "Nome", "Idade", "Estudante"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true
+                java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
         });
         jScrollPane2.setViewportView(clientTable);
         if (clientTable.getColumnModel().getColumnCount() > 0) {
-            clientTable.getColumnModel().getColumn(0).setPreferredWidth(10);
-            clientTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+            clientTable.getColumnModel().getColumn(0).setPreferredWidth(150);
+            clientTable.getColumnModel().getColumn(1).setPreferredWidth(10);
             clientTable.getColumnModel().getColumn(2).setPreferredWidth(10);
-            clientTable.getColumnModel().getColumn(3).setPreferredWidth(10);
         }
 
         javax.swing.GroupLayout clientesLayout = new javax.swing.GroupLayout(clientes);
@@ -396,7 +413,7 @@ public class ComprarCombo extends javax.swing.JFrame {
                 .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(clientesLayout.createSequentialGroup()
                         .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                             .addGroup(clientesLayout.createSequentialGroup()
                                 .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10)
@@ -560,7 +577,7 @@ public class ComprarCombo extends javax.swing.JFrame {
         combosLayout.setHorizontalGroup(
             combosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(combosLayout.createSequentialGroup()
-                .addContainerGap(99, Short.MAX_VALUE)
+                .addContainerGap(104, Short.MAX_VALUE)
                 .addGroup(combosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(combosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                         .addComponent(subtitle1)
@@ -577,7 +594,7 @@ public class ComprarCombo extends javax.swing.JFrame {
                         .addGroup(combosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(desc3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Combo3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
         combosLayout.setVerticalGroup(
             combosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -617,9 +634,9 @@ public class ComprarCombo extends javax.swing.JFrame {
         FilmesLayout.setHorizontalGroup(
             FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FilmesLayout.createSequentialGroup()
-                .addContainerGap(100, Short.MAX_VALUE)
+                .addContainerGap(105, Short.MAX_VALUE)
                 .addComponent(Header3, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         FilmesLayout.setVerticalGroup(
             FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -647,9 +664,9 @@ public class ComprarCombo extends javax.swing.JFrame {
         SessoesLayout.setHorizontalGroup(
             SessoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SessoesLayout.createSequentialGroup()
-                .addContainerGap(100, Short.MAX_VALUE)
+                .addContainerGap(105, Short.MAX_VALUE)
                 .addComponent(Header4, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         SessoesLayout.setVerticalGroup(
             SessoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -778,7 +795,7 @@ public class ComprarCombo extends javax.swing.JFrame {
         ComprarLayout.setHorizontalGroup(
             ComprarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ComprarLayout.createSequentialGroup()
-                .addContainerGap(99, Short.MAX_VALUE)
+                .addContainerGap(104, Short.MAX_VALUE)
                 .addGroup(ComprarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ComprarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                         .addComponent(subtitle2)
@@ -795,7 +812,7 @@ public class ComprarCombo extends javax.swing.JFrame {
                         .addGroup(ComprarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(desc4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Combo6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
         ComprarLayout.setVerticalGroup(
             ComprarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -876,12 +893,72 @@ public class ComprarCombo extends javax.swing.JFrame {
     }//GEN-LAST:event_clientStudentBoxActionPerformed
 
     private void addClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addClientButtonActionPerformed
-        // TODO add your handling code here:
+        if(clientNameField.getText().equals("") || clientAgeSpinner.getValue().equals(0)){
+            JOptionPane.showMessageDialog(this, "Por favor, insira todas as informações!");
+        }
+        else{
+            insertClientText(clientNameField.getText(), (int)clientAgeSpinner.getValue(), clientStudentBox.isSelected());
+        }
     }//GEN-LAST:event_addClientButtonActionPerformed
 
+    private void insertClientText(String name, int age, boolean isStudent){
+        try {
+            FileWriter writer = new FileWriter("Clientes.txt",true);
+            writer.write(""+name+"/"+age+"/"+isStudent);
+            writer.write(System.getProperty("line.separator"));
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Success!");
+            updateClientTable();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Erro!");
+        }
+    
+    }
+    
+    
+    private void updateClientTable() throws IOException{
+        String filePath = "Clientes.txt";
+        File file = new File(filePath);
+        
+        try {
+            
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            
+            DefaultTableModel model = (DefaultTableModel)clientTable.getModel();
+            
+            Object[] tableLines = br.lines().toArray();
+            
+            
+            model.setRowCount(0);
+            for(int i = 0; i < tableLines.length; i++){
+                String line = tableLines[i].toString().trim();
+                Object[] dataRow = line.split("/");
+                boolean estudante = dataRow[2].equals("true");
+                Object[] filtered = {dataRow[0], dataRow[1], estudante};
+                
+                model.addRow(filtered);
+                
+            }
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ComprarCombo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
+    
+    
     private void clientFindFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientFindFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_clientFindFieldActionPerformed
+
+    private void clientFindFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_clientFindFieldKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientFindFieldKeyReleased
+
+    private void clientAgeSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_clientAgeSpinnerStateChanged
+
+    }//GEN-LAST:event_clientAgeSpinnerStateChanged
 
     /**
      * @param args the command line arguments
