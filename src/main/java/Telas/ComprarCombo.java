@@ -8,6 +8,7 @@ import com.sun.tools.javac.Main;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -35,6 +37,7 @@ public class ComprarCombo extends javax.swing.JFrame {
         cardLayout = (CardLayout) (mainCard.getLayout());
         try {
             updateClientTable();
+            updateFilmTable();
         } catch (IOException ex) {
             Logger.getLogger(ComprarCombo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -74,6 +77,7 @@ public class ComprarCombo extends javax.swing.JFrame {
         addClientButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         clientTable = new javax.swing.JTable();
+        removeClientButton = new javax.swing.JButton();
         combos = new javax.swing.JPanel();
         Header1 = new javax.swing.JLabel();
         desc3 = new javax.swing.JLabel();
@@ -89,6 +93,17 @@ public class ComprarCombo extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         Filmes = new javax.swing.JPanel();
         Header3 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        filmNameField = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        filmStarsSpinner = new javax.swing.JSpinner();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        filmTable = new javax.swing.JTable();
+        addFilmButton = new javax.swing.JButton();
+        filmFindField = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        removeFilmButton = new javax.swing.JButton();
         Sessoes = new javax.swing.JPanel();
         Header4 = new javax.swing.JLabel();
         Comprar = new javax.swing.JPanel();
@@ -382,23 +397,41 @@ public class ComprarCombo extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "Idade", "Estudante"
+                "Id", "Nome", "Idade", "Estudante"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane2.setViewportView(clientTable);
         if (clientTable.getColumnModel().getColumnCount() > 0) {
-            clientTable.getColumnModel().getColumn(0).setPreferredWidth(150);
-            clientTable.getColumnModel().getColumn(1).setPreferredWidth(10);
+            clientTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+            clientTable.getColumnModel().getColumn(1).setPreferredWidth(200);
             clientTable.getColumnModel().getColumn(2).setPreferredWidth(10);
+            clientTable.getColumnModel().getColumn(3).setPreferredWidth(10);
         }
+
+        removeClientButton.setBackground(new java.awt.Color(153, 153, 153));
+        removeClientButton.setText("Remover Cliente");
+        removeClientButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        removeClientButton.setBorderPainted(false);
+        removeClientButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeClientButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout clientesLayout = new javax.swing.GroupLayout(clientes);
         clientes.setLayout(clientesLayout);
@@ -411,9 +444,14 @@ public class ComprarCombo extends javax.swing.JFrame {
             .addGroup(clientesLayout.createSequentialGroup()
                 .addGap(109, 109, 109)
                 .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(clientesLayout.createSequentialGroup()
+                    .addComponent(jLabel16)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clientesLayout.createSequentialGroup()
                         .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                            .addGroup(clientesLayout.createSequentialGroup()
+                                .addComponent(clientFindField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(184, 184, 184)
+                                .addComponent(removeClientButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(clientesLayout.createSequentialGroup()
                                 .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10)
@@ -426,14 +464,12 @@ public class ComprarCombo extends javax.swing.JFrame {
                                         .addComponent(clientAgeSpinner, javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(addClientButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addComponent(jSeparator1))
-                        .addGap(94, 94, 94))
-                    .addComponent(jLabel16)
-                    .addComponent(clientFindField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(94, 94, 94))))
         );
         clientesLayout.setVerticalGroup(
             clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(clientesLayout.createSequentialGroup()
-                .addContainerGap(66, Short.MAX_VALUE)
+                .addContainerGap(65, Short.MAX_VALUE)
                 .addComponent(Header2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -449,10 +485,12 @@ public class ComprarCombo extends javax.swing.JFrame {
                 .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clientStudentBox)
                     .addComponent(addClientButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(clientFindField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clientFindField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeClientButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39))
@@ -629,21 +667,143 @@ public class ComprarCombo extends javax.swing.JFrame {
         Header3.setText("Filmes");
         Header3.setAlignmentX(0.5F);
 
+        filmNameField.setBackground(new java.awt.Color(204, 204, 204));
+        filmNameField.setForeground(new java.awt.Color(51, 51, 51));
+        filmNameField.setToolTipText("");
+        filmNameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filmNameFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel17.setText("Nome:");
+
+        jLabel18.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel18.setText("Classificação:");
+
+        filmTable.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        filmTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Nome", "Classificacao"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(filmTable);
+        if (filmTable.getColumnModel().getColumnCount() > 0) {
+            filmTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+            filmTable.getColumnModel().getColumn(2).setPreferredWidth(10);
+        }
+
+        addFilmButton.setBackground(new java.awt.Color(153, 153, 153));
+        addFilmButton.setText("Adicionar Filme");
+        addFilmButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        addFilmButton.setBorderPainted(false);
+        addFilmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addFilmButtonActionPerformed(evt);
+            }
+        });
+
+        filmFindField.setBackground(new java.awt.Color(204, 204, 204));
+        filmFindField.setForeground(new java.awt.Color(51, 51, 51));
+        filmFindField.setToolTipText("");
+        filmFindField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filmFindFieldActionPerformed(evt);
+            }
+        });
+        filmFindField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                filmFindFieldKeyReleased(evt);
+            }
+        });
+
+        jLabel19.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel19.setText("Pesquisar:");
+
+        removeFilmButton.setBackground(new java.awt.Color(153, 153, 153));
+        removeFilmButton.setText("Remover Cliente");
+        removeFilmButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        removeFilmButton.setBorderPainted(false);
+        removeFilmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeFilmButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout FilmesLayout = new javax.swing.GroupLayout(Filmes);
         Filmes.setLayout(FilmesLayout);
         FilmesLayout.setHorizontalGroup(
             FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FilmesLayout.createSequentialGroup()
-                .addContainerGap(105, Short.MAX_VALUE)
-                .addComponent(Header3, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(105, Short.MAX_VALUE))
+            .addGroup(FilmesLayout.createSequentialGroup()
+                .addGap(104, 104, 104)
+                .addGroup(FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Header3, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(FilmesLayout.createSequentialGroup()
+                            .addGroup(FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel19)
+                                .addComponent(filmFindField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(FilmesLayout.createSequentialGroup()
+                                    .addGap(184, 184, 184)
+                                    .addComponent(addFilmButton, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
+                                .addGroup(FilmesLayout.createSequentialGroup()
+                                    .addGap(171, 171, 171)
+                                    .addComponent(removeFilmButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addGap(103, 103, 103))
+            .addGroup(FilmesLayout.createSequentialGroup()
+                .addGap(107, 107, 107)
+                .addGroup(FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel17)
+                    .addComponent(filmNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(filmStarsSpinner))
+                .addGap(104, 104, 104))
         );
         FilmesLayout.setVerticalGroup(
             FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FilmesLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
+                .addGap(66, 66, 66)
                 .addComponent(Header3)
-                .addContainerGap(431, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel18))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(filmNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(filmStarsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addComponent(addFilmButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(FilmesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(filmFindField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeFilmButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
         );
 
         mainCard.add(Filmes, "filmes");
@@ -897,18 +1057,34 @@ public class ComprarCombo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, insira todas as informações!");
         }
         else{
-            insertClientText(clientNameField.getText(), (int)clientAgeSpinner.getValue(), clientStudentBox.isSelected());
+            insertClientRow(clientNameField.getText(), (int)clientAgeSpinner.getValue(), clientStudentBox.isSelected());
+            insertClientText();
         }
     }//GEN-LAST:event_addClientButtonActionPerformed
 
-    private void insertClientText(String name, int age, boolean isStudent){
+    private void insertClientRow(String name, int age, boolean isStudent){
+        DefaultTableModel model = (DefaultTableModel)clientTable.getModel();
+        Object[] data = {clientTable.getRowCount(),name, age, isStudent};
+        model.addRow(data);
+        JOptionPane.showMessageDialog(null, "O Cliente foi Adicionado Com Sucesso");
+    }
+    
+    private void insertClientText(){
         try {
-            FileWriter writer = new FileWriter("Clientes.txt",true);
-            writer.write(""+name+"/"+age+"/"+isStudent);
-            writer.write(System.getProperty("line.separator"));
+            FileWriter writer = new FileWriter("Clientes.txt",false);
+            BufferedWriter bw = new BufferedWriter(writer);
+                
+                
+            for(int i = 0; i < clientTable.getRowCount(); i++){
+                for(int j = 0; j < clientTable.getColumnCount(); j++){//column
+                 bw.write(clientTable.getValueAt(i,j).toString()+"/");
+                }
+                bw.newLine();
+            }
+            bw.close();
             writer.close();
-            JOptionPane.showMessageDialog(null, "Success!");
             updateClientTable();
+            
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Erro!");
         }
@@ -933,8 +1109,8 @@ public class ComprarCombo extends javax.swing.JFrame {
             for(int i = 0; i < tableLines.length; i++){
                 String line = tableLines[i].toString().trim();
                 Object[] dataRow = line.split("/");
-                boolean estudante = dataRow[2].equals("true");
-                Object[] filtered = {dataRow[0], dataRow[1], estudante};
+                boolean estudante = dataRow[3].equals("true");
+                Object[] filtered = {dataRow[0], dataRow[1], dataRow[2], estudante};
                 
                 model.addRow(filtered);
                 
@@ -959,6 +1135,124 @@ public class ComprarCombo extends javax.swing.JFrame {
     private void clientAgeSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_clientAgeSpinnerStateChanged
 
     }//GEN-LAST:event_clientAgeSpinnerStateChanged
+
+    private void filmNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filmNameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filmNameFieldActionPerformed
+
+    private void addFilmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFilmButtonActionPerformed
+          if(filmNameField.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Por favor, insira todas as informações!");
+        }
+        else{
+            insertFilmRow(filmNameField.getText(), (int)filmStarsSpinner.getValue());
+            insertFilmText();
+        }
+    }//GEN-LAST:event_addFilmButtonActionPerformed
+
+        private void insertFilmRow(String name, int star){
+            DefaultTableModel model = (DefaultTableModel)filmTable.getModel();
+            Object[] data = {filmTable.getRowCount(),name, star};
+            model.addRow(data);
+            JOptionPane.showMessageDialog(null, "O Filme foi Adicionado Com Sucesso");
+        }
+    
+    
+        private void insertFilmText(){
+        try {
+            FileWriter writer = new FileWriter("Filmes.txt",false);
+            BufferedWriter bw = new BufferedWriter(writer);
+                
+                
+            for(int i = 0; i < filmTable.getRowCount(); i++){
+                for(int j = 0; j < filmTable.getColumnCount(); j++){//column
+                 bw.write(filmTable.getValueAt(i,j).toString()+"/");
+                }
+                bw.newLine();
+            }
+            bw.close();
+            writer.close();
+            updateFilmTable();
+            
+            
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Erro!");
+        }
+    
+    }
+    
+        
+        private void updateFilmTable() throws IOException{
+          String filePath = "Filmes.txt";
+        File file = new File(filePath);
+        
+        try {
+            
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            
+            DefaultTableModel model = (DefaultTableModel)filmTable.getModel();
+            
+            Object[] tableLines = br.lines().toArray();
+            
+            
+            model.setRowCount(0);
+            for(int i = 0; i < tableLines.length; i++){
+                String line = tableLines[i].toString().trim();
+                Object[] dataRow = line.split("/");
+                Object[] filtered = {dataRow[0], dataRow[1], dataRow[2]};
+                
+                model.addRow(filtered);
+                
+            }
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ComprarCombo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+    }
+        
+    
+    
+    private void filmFindFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filmFindFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filmFindFieldActionPerformed
+
+    private void filmFindFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filmFindFieldKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filmFindFieldKeyReleased
+
+    private void removeClientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeClientButtonActionPerformed
+            DefaultTableModel model = (DefaultTableModel)clientTable.getModel();
+            if(clientTable.getSelectedRowCount() == 1){
+            for(int i = clientTable.getSelectedRow(); i < clientTable.getRowCount(); i ++){
+                model.setValueAt(i-1, i, 0);
+            }
+            model.removeRow(clientTable.getSelectedRow());
+            insertClientText();
+            JOptionPane.showMessageDialog(null, "O Cliente foi Removido Com Sucesso");
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Selecione apenas UMA linha");
+            }
+            
+    }//GEN-LAST:event_removeClientButtonActionPerformed
+
+    private void removeFilmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFilmButtonActionPerformed
+        DefaultTableModel model = (DefaultTableModel)filmTable.getModel();
+            if(filmTable.getSelectedRowCount() == 1){
+            for(int i = filmTable.getSelectedRow(); i < filmTable.getRowCount(); i ++){
+                model.setValueAt(i-1, i, 0);
+            }
+            model.removeRow(filmTable.getSelectedRow());
+            insertFilmText();
+            JOptionPane.showMessageDialog(null, "O Filme foi Removido Com Sucesso");
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Selecione apenas um filme");
+            }
+    }//GEN-LAST:event_removeFilmButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1012,6 +1306,7 @@ public class ComprarCombo extends javax.swing.JFrame {
     private javax.swing.JPanel Menu;
     private javax.swing.JPanel Sessoes;
     private javax.swing.JButton addClientButton;
+    private javax.swing.JButton addFilmButton;
     private javax.swing.JPanel but1;
     private javax.swing.JPanel but2;
     private javax.swing.JPanel but3;
@@ -1030,6 +1325,10 @@ public class ComprarCombo extends javax.swing.JFrame {
     private javax.swing.JLabel desc4;
     private javax.swing.JLabel desc5;
     private javax.swing.JLabel desc6;
+    private javax.swing.JTextField filmFindField;
+    private javax.swing.JTextField filmNameField;
+    private javax.swing.JSpinner filmStarsSpinner;
+    private javax.swing.JTable filmTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1038,6 +1337,9 @@ public class ComprarCombo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1047,8 +1349,12 @@ public class ComprarCombo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel mainCard;
+    private javax.swing.JButton removeClientButton;
+    private javax.swing.JButton removeFilmButton;
     private javax.swing.JLabel subtitle1;
     private javax.swing.JLabel subtitle2;
     // End of variables declaration//GEN-END:variables
