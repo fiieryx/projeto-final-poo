@@ -11,7 +11,6 @@ public class Filme{
     public Filme(String nomeFilme, int classificacao){
         this.nomeFilme = nomeFilme;
         this.classificacao = classificacao;
-        listaSessoesFilmes = new ArrayList<Sessao>();
         
     }
 
