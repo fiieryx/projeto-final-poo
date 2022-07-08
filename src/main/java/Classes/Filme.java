@@ -1,12 +1,13 @@
 package Classes;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Filme{
     private String nomeFilme;
     private int classificacao;
     private int numeroCadastroFilme;
-    ArrayList<Sessao> listaSessoesFilmes;
+    private int numeroVendas = 0;
+    public List<Sessao> listaSessoesFilmes = new ArrayList<>();
 
     public Filme(String nomeFilme, int classificacao){
         this.nomeFilme = nomeFilme;
@@ -44,4 +45,17 @@ public class Filme{
     public void setNumeroCadastroFilme(int numeroCadastroFilme) {
         this.numeroCadastroFilme = numeroCadastroFilme;
     }
+    
+    public void setNumeroVendas(int numeroVendas) {
+        this.numeroVendas = numeroVendas;
+    }
+    
+    public int getNumeroVendas(){
+    return numeroVendas;
+    }
+    
+    public void addNumeroVendas(int numerovendas){
+    this.numeroVendas += numerovendas;
+    }
+    
 }

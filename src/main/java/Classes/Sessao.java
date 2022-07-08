@@ -1,20 +1,26 @@
 package Classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Sessao {
+    
     private String dia;
-    private String hora;
+    private int hora;
     private int minuto;
     private String horario;
     private int qntdMaxPessoas;
     private int horaInteiro;
+    public List<Assento> listaAssentosOcupados = new ArrayList<>();
 
    
 
-    public Sessao(String dia, String hora, String minuto, int qntdMaxPessoas){
+    public Sessao(String dia, int hora, int minuto, int qntdMaxPessoas){
         this.dia = dia;
         this.horario = hora + ":" + minuto;
+        this.hora = hora;
+        this.minuto = minuto;
         this.qntdMaxPessoas = qntdMaxPessoas;
-        this.horaInteiro = Integer.parseInt(hora);
     }
 
     public String statusSessao(){
@@ -47,10 +53,10 @@ public class Sessao {
         this.dia = dia;
     }
     
-    public String getHora() {
+    public int getHora() {
         return hora;
     }
-    public void setHora(String hora) {
+    public void setHora(int hora) {
         this.hora = hora;
     }
     
@@ -68,4 +74,12 @@ public class Sessao {
     public void setHoraInteiro(int horaInteiro) {
         this.horaInteiro = horaInteiro;
     }
+
+    /**
+     * @return the id
+     */
+
+    /**
+     * @param id the id to set
+     */
 }

@@ -1,0 +1,7 @@
+========= INGRESSO =========
+Nome:Márcio
+Filme:O Mundo Da Programação Orientada
+Sessão:15:10
+Assento:5
+Combo: Refri + Pipoca + Chocolate
+Total: R$23.2
